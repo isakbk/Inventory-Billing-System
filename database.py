@@ -9,8 +9,9 @@ class create_tables:
     
     cursor.execute("PRAGRMA foreign_key=on")
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS users(
+        CREATE TABLE IF NOT EXISTS usersModel(
         user_id INTEGER primary key,
+        user_email TEXT NOT NULL,
         user_name TEXT NOT NULL,
         user_password TEXT NOT NULL,
         user_phone_number TEXT NOT NULL,
@@ -19,7 +20,7 @@ class create_tables:
         user_type TEXT NOT NULL
         )
 
-        CREATE TABLE IF NOT EXISTS product(
+        CREATE TABLE IF NOT EXISTS productModel(
           
           product_id INTEGER PRIMARY KEY,
           product_name TEXT NOT NULL,
@@ -30,14 +31,14 @@ class create_tables:
           product_created_at TEXT NOT NULL
          ) 
 
-        CREATE TABLE IF NOT EXISTS order(
+        CREATE TABLE IF NOT EXISTS orderModel(
           order_id INTEGER PRIMARY KEY,
-          FORIEGN KEY (product_id) REFERENCES product(product_id)
-          FORIEGN KEY (user_id) REFERENCES  user(user_id)
+          FORIEGN KEY (product_id) REFERENCES productModel(product_id)
+          FORIEGN KEY (user_id) REFERENCES  userModel(user_id)
           order_at TEXT NOT NULL    
         )
 
-        CREATE TABLE IF NOT EXISTS sales(
+        CREATE TABLE IF NOT EXISTS salesModel(
            total_sale INTEGER NOT NULL,
            profit INTEGER NOT NULL,
            loss INTEGER NOT NULL
