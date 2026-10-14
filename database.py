@@ -1,15 +1,16 @@
 import sqlite3
 
 
-
 class create_tables:
- conn=sqlite3.connect("shop.db")
- cursor=conn.cursor()   
- def __inti__(self):
-    
-    cursor.execute("PRAGRMA foreign_key=on")
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS usersModel(
+    conn = sqlite3.connect("shop.db")
+    cursor = conn.cursor()
+
+    def __init__(self):
+
+        self.cursor.execute("PRAGMA foreign_key=on")
+        self.cursor.execute(
+            """
+        CREATE TABLE IF NOT EXISTS userModel(
         user_id INTEGER primary key,
         user_email TEXT NOT NULL,
         user_name TEXT NOT NULL,
@@ -18,7 +19,7 @@ class create_tables:
         user_status TEXT NOT NULL,
         user_created_at TEXT NOT NULL,
         user_type TEXT NOT NULL
-        )
+        );
 
         CREATE TABLE IF NOT EXISTS productModel(
           
@@ -27,21 +28,26 @@ class create_tables:
           product_price REAL NOT NULL,
           product_quantity INTEGER NOT NULL,
           product_description TEXT,
-          product_categories TEXT NOT NULL,
-          product_created_at TEXT NOT NULL
-         ) 
+          product_category TEXT NOT NULL,
+          product_status TEXT NOT NULL,
+          product_created_at TEXT NOT NULL,
+          product_updated_at TEXT NOT NULL
+         );
 
         CREATE TABLE IF NOT EXISTS orderModel(
           order_id INTEGER PRIMARY KEY,
-          FORIEGN KEY (product_id) REFERENCES productModel(product_id)
-          FORIEGN KEY (user_id) REFERENCES  userModel(user_id)
-          order_at TEXT NOT NULL    
-        )
+          product_id INTEGER,
+          user_id INTEGER,
+          order_at TEXT NOT NULL,
+          FOREIGN KEY (product_id) REFERENCES productModel(product_id),
+          FOREIGN KEY (user_id) REFERENCES userModel(user_id)
+        );
 
         CREATE TABLE IF NOT EXISTS salesModel(
            total_sale INTEGER NOT NULL,
            profit INTEGER NOT NULL,
            loss INTEGER NOT NULL
-           ) 
-
-    """)
+           );
+    """
+        )
+        self.conn.commit()
